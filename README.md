@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/botium-connector-einsteinbot.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/botium-connector-einsteinbot/)
 
-[![Codeship Status for codeforequity-at/botium-connector-einsteinbot](https://app.codeship.com/projects/22e46100-911b-0137-ae8a-4e8cea91d933/status?branch=master)](https://app.codeship.com/projects/356365)
+[![Codeship Status for codeforequity-at/botium-connector-einsteinbot](https://app.codeship.com/projects/9ba53c50-d343-0138-9788-0add58eace64/status?branch=master)](https://app.codeship.com/projects/408315)
 [![npm version](https://badge.fury.io/js/botium-connector-einsteinbot.svg)](https://badge.fury.io/js/botium-connector-einsteinbot)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
