@@ -1,0 +1,12 @@
+{
+  "botium": {
+    "Capabilities": {
+      "PROJECTNAME": "Botium Project Einstein Bot",
+      "CONTAINERMODE": "einsteinbot",
+      "EINSTEINBOT_ENDPOINT": "xxx",
+      "EINSTEINBOT_ORGANIZATION_ID": "xxx",
+      "EINSTEINBOT_DEPLOYMENT_ID": "xxx",
+      "EINSTEINBOT_CHATBUTTON_ID": "xxx"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+order
+
+#me
+hello
+
+#bot
+Hi from Jana
+
+#bot
+BUTTONS Order Related|Appointment Related
+
+#me
+Order Related
+
+#bot
+Please tell me the order number
+
+#me
+O-12345
+
+#bot
+Ok, you asked about order O-12345

@@ -1,0 +1,19 @@
+{
+  "name": "einsteinbot-sample",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "mocha spec"
+  },
+  "botium": {
+    "convodirs": [
+      "spec/convo"
+    ],
+    "expandConvos": true,
+    "expandUtterancesToConvos": false
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "botium-bindings": "latest",
+    "botium-connector-einsteinbot": "../"
+  }
+}
