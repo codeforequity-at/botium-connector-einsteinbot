@@ -72,7 +72,7 @@ class BotiumConnectorEinsteinBot {
         },
         [CoreCapabilities.SIMPLEREST_PING_BODY]: {
           organizationId: this.caps[Capabilities.EINSTEINBOT_ORGANIZATION_ID],
-          deploymentId: this.caps[Capabilities.EINSTEINBOT_DEPLOYMENT_ID], 
+          deploymentId: this.caps[Capabilities.EINSTEINBOT_DEPLOYMENT_ID],
           buttonId: this.caps[Capabilities.EINSTEINBOT_CHATBUTTON_ID],
           sessionId: '{{context.id}}',
           userAgent: 'Botium',
@@ -186,7 +186,6 @@ module.exports = {
         name: 'EINSTEINBOT_CHATBUTTON_ID',
         label: 'Chatbot Button Id',
         description: 'Find it in Salesforce: Service-Setup | Channels | Chat | Chat Buttons, click on button and get it from the page url (address=%2F<xxxxxx>)',
-        description: 'A valid language isocode like en. If not provided a language detection will be performed.',
         type: 'string',
         required: true
       },
