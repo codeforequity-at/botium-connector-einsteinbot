@@ -1,6 +1,6 @@
-const util = require('util')
 const fs = require('fs')
 const path = require('path')
+const _ = require('lodash')
 const request = require('request-promise-native')
 const debug = require('debug')('botium-connector-einsteinbot')
 
@@ -12,7 +12,9 @@ const Capabilities = {
   EINSTEINBOT_ORGANIZATION_ID: 'EINSTEINBOT_ORGANIZATION_ID',
   EINSTEINBOT_DEPLOYMENT_ID: 'EINSTEINBOT_DEPLOYMENT_ID',
   EINSTEINBOT_CHATBUTTON_ID: 'EINSTEINBOT_CHATBUTTON_ID',
-  EINSTEINBOT_VISITORNAME: 'EINSTEINBOT_VISITORNAME'
+  EINSTEINBOT_VISITORNAME: 'EINSTEINBOT_VISITORNAME',
+  EINSTEINBOT_PRECHAT_DETAILS: 'EINSTEINBOT_PRECHAT_DETAILS',
+  EINSTEINBOT_PRECHAT_ENTITIES: 'EINSTEINBOT_PRECHAT_ENTITIES'
 }
 
 const Defaults = {
@@ -36,6 +38,24 @@ class BotiumConnectorEinsteinBot {
     if (!this.caps[Capabilities.EINSTEINBOT_ORGANIZATION_ID]) throw new Error('EINSTEINBOT_ORGANIZATION_ID capability required')
     if (!this.caps[Capabilities.EINSTEINBOT_DEPLOYMENT_ID]) throw new Error('EINSTEINBOT_DEPLOYMENT_ID capability required')
     if (!this.caps[Capabilities.EINSTEINBOT_CHATBUTTON_ID]) throw new Error('EINSTEINBOT_CHATBUTTON_ID capability required')
+
+    let prechatDetails = []
+    let prechatEntities = []
+
+    if (this.caps[Capabilities.EINSTEINBOT_PRECHAT_DETAILS]) {
+      prechatDetails = this.caps[Capabilities.EINSTEINBOT_PRECHAT_DETAILS]
+      if (_.isString(prechatDetails)) {
+        prechatDetails = JSON.parse(prechatDetails)
+      }
+      if (!_.isArray(prechatDetails)) throw new Error('EINSTEINBOT_PRECHAT_DETAILS capability has to be an array')
+    }
+    if (this.caps[Capabilities.EINSTEINBOT_PRECHAT_ENTITIES]) {
+      prechatEntities = this.caps[Capabilities.EINSTEINBOT_PRECHAT_ENTITIES]
+      if (_.isString(prechatEntities)) {
+        prechatEntities = JSON.parse(prechatEntities)
+      }
+      if (!_.isArray(prechatEntities)) throw new Error('EINSTEINBOT_PRECHAT_ENTITIES capability has to be an array')
+    }
 
     const baseUrl = `${this.caps[Capabilities.EINSTEINBOT_ENDPOINT]}${this.caps[Capabilities.EINSTEINBOT_ENDPOINT].endsWith('/') ? '' : '/'}`
 
@@ -79,8 +99,8 @@ class BotiumConnectorEinsteinBot {
           language: 'en-US',
           screenResolution: '1900x1080',
           visitorName: this.caps[Capabilities.EINSTEINBOT_VISITORNAME],
-          prechatDetails: [],
-          prechatEntities: [],
+          prechatDetails,
+          prechatEntities,
           receiveQueueUpdates: true,
           isPost: true
         },
@@ -114,15 +134,13 @@ class BotiumConnectorEinsteinBot {
       this.delegateCaps[CoreCapabilities.SIMPLEREST_RESPONSE_HOOK] = ({ botMsg, botMsgRoot }) => {
         botMsg.messageText = botMsgRoot.text
         if (botMsgRoot.items) {
-          botMsg.buttons = botMsgRoot.items.map(i => ({
-            text: i.text
-          }))
+          botMsgRoot.items.forEach(i => {
+            botMsg.buttons.push({ text: i.text })
+          })
         }
       }
-
+      debug(`Validate delegateCaps ${JSON.stringify(this.delegateCaps, null, 2)}`)
       this.delegateCaps = Object.assign({}, this.caps, this.delegateCaps)
-
-      debug(`Validate delegateCaps ${util.inspect(this.delegateCaps)}`)
       this.delegateContainer = new SimpleRestContainer({ queueBotSays: this.queueBotSays, caps: this.delegateCaps })
     }
 
@@ -194,6 +212,20 @@ module.exports = {
         label: 'Visitor name',
         description: `Visitor name to be used for the Botium conversations (default: "${Defaults[Capabilities.EINSTEINBOT_VISITORNAME]}")`,
         type: 'string',
+        required: false
+      },
+      {
+        name: 'EINSTEINBOT_PRECHAT_DETAILS',
+        label: 'Prechat Details',
+        description: 'Prechat Details to attach to the Botium conversations',
+        type: 'json',
+        required: false
+      },
+      {
+        name: 'EINSTEINBOT_PRECHAT_ENTITIES',
+        label: 'Prechat Entities',
+        description: 'Prechat Entities to attach to the Botium conversations',
+        type: 'json',
         required: false
       }
     ]

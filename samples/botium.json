@@ -6,7 +6,43 @@
       "EINSTEINBOT_ENDPOINT": "xxx",
       "EINSTEINBOT_ORGANIZATION_ID": "xxx",
       "EINSTEINBOT_DEPLOYMENT_ID": "xxx",
-      "EINSTEINBOT_CHATBUTTON_ID": "xxx"
+      "EINSTEINBOT_CHATBUTTON_ID": "xxx",
+      "__EINSTEINBOT_PRECHAT_DETAILS": [
+        {
+          "label": "Account Email",
+          "value": "teste@gmail.com",
+          "displayToAgent": true
+        }, {
+          "label": "Contact Email",
+          "value": "teste@gmail.com",
+          "displayToAgent": true
+        }
+      ],
+      "__EINSTEINBOT_PRECHAT_ENTITIES": [{
+        "entityName": "Contact",
+        "linkToEntityName": "Case",
+        "linkToEntityField": "ContactId",
+        "saveToTranscript": "ContactId",
+        "entityFieldMaps": [{
+            "isExactMatch": false,
+            "fieldName": "FirstName",
+            "doCreate": false,
+            "doFind": false,
+            "label": "firstName"
+        }, {
+            "isExactMatch": false,
+            "fieldName": "LastName",
+            "doCreate": false,
+            "doFind": false,
+            "label": "LastName"
+        }, {
+            "isExactMatch": true,
+            "fieldName": "Email",
+            "doCreate": false,
+            "doFind": true,
+            "label": "Contact Email"
+        }]
+      }]
     }
   }
 }
