@@ -1,6 +1,6 @@
 {
   "name": "botium-connector-einsteinbot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Botium Connector for Salesforce Einstein Bots",
   "main": "dist/botium-connector-einsteinbot-cjs.js",
   "module": "dist/botium-connector-einsteinbot-es.js",
