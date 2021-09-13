@@ -62,12 +62,13 @@ class BotiumConnectorEinsteinBot {
     if (!this.delegateContainer) {
       // default values
       this.delegateCaps = {
+        [CoreCapabilities.SIMPLEREST_INIT_CONTEXT]: { sequence: -1 },
         [CoreCapabilities.SIMPLEREST_START_HOOK]: async ({ context }) => {
           const sessionIdRequest = {
             uri: `${baseUrl}System/SessionId`,
             method: 'GET',
             headers: {
-              'X-LIVEAGENT-API-VERSION': 34,
+              'X-LIVEAGENT-API-VERSION': 53,
               'X-LIVEAGENT-AFFINITY': 'null'
             },
             json: true
@@ -85,7 +86,7 @@ class BotiumConnectorEinsteinBot {
         [CoreCapabilities.SIMPLEREST_PING_VERB]: 'POST',
         [CoreCapabilities.SIMPLEREST_PING_TIMEOUT]: 60000,
         [CoreCapabilities.SIMPLEREST_PING_HEADERS]: {
-          'X-LIVEAGENT-API-VERSION': 34,
+          'X-LIVEAGENT-API-VERSION': 53,
           'X-LIVEAGENT-AFFINITY': '{{context.affinityToken}}',
           'X-LIVEAGENT-SESSION-KEY': '{{context.key}}',
           'X-LIVEAGENT-SEQUENCE': 1
@@ -101,7 +102,7 @@ class BotiumConnectorEinsteinBot {
           visitorName: this.caps[Capabilities.EINSTEINBOT_VISITORNAME],
           prechatDetails,
           prechatEntities,
-          receiveQueueUpdates: true,
+          receiveQueueUpdates: false,
           isPost: true
         },
         [CoreCapabilities.SIMPLEREST_PING_BODY_RAW]: true,
@@ -109,7 +110,7 @@ class BotiumConnectorEinsteinBot {
         [CoreCapabilities.SIMPLEREST_URL]: `${baseUrl}Chasitor/ChatMessage`,
         [CoreCapabilities.SIMPLEREST_VERB]: 'POST',
         [CoreCapabilities.SIMPLEREST_HEADERS_TEMPLATE]: {
-          'X-LIVEAGENT-API-VERSION': 34,
+          'X-LIVEAGENT-API-VERSION': 53,
           'X-LIVEAGENT-AFFINITY': '{{context.affinityToken}}',
           'X-LIVEAGENT-SESSION-KEY': '{{context.key}}'
         },
@@ -119,15 +120,15 @@ class BotiumConnectorEinsteinBot {
         [CoreCapabilities.SIMPLEREST_REQUEST_HOOK]: ({ requestOptions }) => {
           requestOptions.headers['X-LIVEAGENT-SEQUENCE'] = this.seqCounter
         },
-        [CoreCapabilities.SIMPLEREST_POLL_URL]: `${baseUrl}System/Messages`,
+        [CoreCapabilities.SIMPLEREST_POLL_URL]: `${baseUrl}System/Messages?ack={{context.sequence}}`,
         [CoreCapabilities.SIMPLEREST_POLL_VERB]: 'GET',
         [CoreCapabilities.SIMPLEREST_POLL_HEADERS]: {
-          'X-LIVEAGENT-API-VERSION': 34,
+          'X-LIVEAGENT-API-VERSION': 53,
           'X-LIVEAGENT-AFFINITY': '{{context.affinityToken}}',
           'X-LIVEAGENT-SESSION-KEY': '{{context.key}}'
         },
         [CoreCapabilities.SIMPLEREST_POLL_TIMEOUT]: 60000,
-        [CoreCapabilities.SIMPLEREST_POLL_UPDATE_CONTEXT]: false,
+        [CoreCapabilities.SIMPLEREST_POLL_UPDATE_CONTEXT]: true,
         [CoreCapabilities.SIMPLEREST_BODY_JSONPATH]: '$.messages[?(@.type==\'ChatMessage\' || @.type==\'RichMessage\')].message',
         [CoreCapabilities.SIMPLEREST_CONTEXT_MERGE_OR_REPLACE]: 'MERGE'
       }
