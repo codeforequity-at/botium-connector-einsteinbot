@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
-const request = require('request-promise-native')
 const debug = require('debug')('botium-connector-einsteinbot')
 
 const SimpleRestContainer = require('botium-core/src/containers/plugins/SimpleRestContainer.js')
@@ -64,18 +63,21 @@ class BotiumConnectorEinsteinBot {
       this.delegateCaps = {
         [CoreCapabilities.SIMPLEREST_INIT_CONTEXT]: { sequence: -1 },
         [CoreCapabilities.SIMPLEREST_START_HOOK]: async ({ context }) => {
+          const sessionIdUrl = `${baseUrl}System/SessionId`
           const sessionIdRequest = {
-            uri: `${baseUrl}System/SessionId`,
             method: 'GET',
             headers: {
               'X-LIVEAGENT-API-VERSION': 53,
               'X-LIVEAGENT-AFFINITY': 'null'
-            },
-            json: true
+            }
           }
-          debug(`SessionId Request: ${JSON.stringify(sessionIdRequest, null, 2)}`)
+          debug(`SessionId Request: ${JSON.stringify({ url: sessionIdUrl, ...sessionIdRequest }, null, 2)}`)
           try {
-            const sessionIdResponse = await request(sessionIdRequest)
+            const response = await fetch(sessionIdUrl, sessionIdRequest)
+            if (!response.ok) {
+              throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+            }
+            const sessionIdResponse = await response.json()
             debug(`Got SessionId Response: ${JSON.stringify(sessionIdResponse, null, 2)}`)
             Object.assign(context, sessionIdResponse)
           } catch (err) {

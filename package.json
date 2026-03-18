@@ -1,13 +1,15 @@
 {
   "name": "botium-connector-einsteinbot",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Botium Connector for Salesforce Einstein Bots",
   "main": "dist/botium-connector-einsteinbot-cjs.js",
   "module": "dist/botium-connector-einsteinbot-es.js",
   "scripts": {
     "build": "npm run eslint && rollup -c && cp logo.png dist",
     "eslint": "eslint index.js",
-    "eslint-fix": "eslint --fix index.js"
+    "eslint-fix": "eslint --fix index.js",
+    "test": "echo 'Not implemented yet'",
+    "test-nightly": "echo 'Not implemented yet'"
   },
   "repository": {
     "type": "git",
@@ -38,10 +40,11 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "debug": "^4.3.2",
-    "lodash": "^4.17.21",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9"
+    "debug": "^4.4.3",
+    "lodash": "^4.17.23"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "peerDependencies": {
     "botium-core": ">= 1.9.5"
